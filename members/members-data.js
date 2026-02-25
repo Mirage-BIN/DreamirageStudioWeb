@@ -87,11 +87,14 @@
             id: 7,
             name: '🍃',
             role: '硬件开发',
-            bio: '阿巴阿巴，介个人很懒，都还没写。\n\n"阿巴阿巴，介个人很懒，都还没写。"',
-            tags: ['硬件', 'C', '码农'],
+            bio: '工科生，喜欢数学，偶尔写代码。准备考研，平时没空做项目\n\n"目前参与项目: Pytools，Lore，Corain，Laer   学历: 安徽建筑大学大一电科   兴趣: 数理逻辑，范畴论，数论，计算科学，绘画，心理学，编程，哲学   特长: 数学（菜的一批），编程（菜的一批），英语（菜的一批），剪辑（只是对自己发的作品够用），睡觉   常用开发工具: vsc，xcode，intelij，mukeil3/4/5，rustrover，cnb云原生开发镜像，github工作空间，linux终端，jupyter笔记本   常用语言: python，rust，kotlin，swift，c89   热门但目前不是很熟的语言: go, ts, shell, haskell, php   目前学习方向: kotlin和swif的互操作，rust和c的abi（做学校的项目），rust+actixweb+wasm+dioxus（react）全栈开发   领域内短板: 数据库，算法，异步编程，演算，操作系统，运维，镜像，版本控制，分发，中间件，AST/PSI，架构   性格: 通常平静"',
+            tags: ['数理逻辑', '范畴论', '数论', '计算科学', '绘画', '心理学', '码农', '哲学', '睡觉'],
             avatarImage: 'members/picture/🍃.webp',
             links: [
-
+                { label: '邮箱', url: 'mailto:macro__9@outlook.com', icon: 'fas fa-envelope' },
+                { label: '稀土掘金', url: 'https://cnb.cool/110?url=https%3A%2F%2Fjuejin.cn%2Fuser%2F2496358871992339', icon: 'fas fa-digging' }
+                { label: 'bilibili', url: 'https://cnb.cool/110?url=https%3A%2F%2Fb23.tv%2FU7gSxFz' },
+                { label: 'GitHub', url: 'https://cnb.cool/110?url=https%3A%2F%2Fgithub.com%2FFleetingLore%2F' },
             ]
         }
     ];
