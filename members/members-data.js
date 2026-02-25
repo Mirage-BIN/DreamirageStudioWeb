@@ -93,8 +93,8 @@
             links: [
                 { label: '邮箱', url: 'mailto:macro__9@outlook.com', icon: 'fas fa-envelope' },
                 { label: '稀土掘金', url: 'https://cnb.cool/110?url=https%3A%2F%2Fjuejin.cn%2Fuser%2F2496358871992339', icon: 'fas fa-digging' }
-                { label: 'bilibili', url: 'https://cnb.cool/110?url=https%3A%2F%2Fb23.tv%2FU7gSxFz' },
-                { label: 'GitHub', url: 'https://cnb.cool/110?url=https%3A%2F%2Fgithub.com%2FFleetingLore%2F' },
+                { label: 'bilibili', url: 'https://cnb.cool/110?url=https%3A%2F%2Fb23.tv%2FU7gSxFz', icon: 'fab fa-bilibili' },
+                { label: 'GitHub', url: 'https://cnb.cool/110?url=https%3A%2F%2Fgithub.com%2FFleetingLore%2F', icon: 'fab fa-github' },
             ]
         }
     ];
