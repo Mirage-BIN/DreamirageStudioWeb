@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamirageStudio | 服务</title>
+    <link rel="stylesheet" href="fonts/fonts.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="Picture/DMI_Logo.svg">
+    <style>
+        /* 服务页面特定样式 */
+        .services-page {
+            padding-top: 120px;
+            padding-bottom: var(--spacing-xxl);
+            min-height: 100vh;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-left: var(--spacing-xl);
+            padding-right: var(--spacing-xl);
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--spacing-xl);
+            text-align: center;
+            color: var(--color-primary);
+        }
+        
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto var(--spacing-xxl);
+            line-height: 1.6;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xxl);
+        }
+        
+        .service-card {
+            background-color: var(--color-surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .service-header {
+            padding: var(--spacing-xl);
+            background-color: var(--color-primary);
+            color: white;
+            text-align: center;
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .service-name {
+            font-size: 1.5rem;
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .service-description {
+            opacity: 0.9;
+            font-size: 0.875rem;
+        }
+        
+        .service-content {
+            padding: var(--spacing-xl);
+        }
+        
+        .service-features {
+            list-style: none;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .service-feature {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text);
+        }
+
+        .service-feature i {
+            color: var(--color-primary);
+        }
+
+        .service-pricing-info {
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-md);
+            background: linear-gradient(135deg, var(--color-primary)10 0%, var(--color-secondary)10 100%);
+            border-radius: var(--radius-md);
+            border: 2px dashed var(--color-primary);
+        }
+
+        .pricing-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            color: var(--color-primary);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .pricing-note i {
+            font-size: 1.25rem;
+        }
+
+        .service-action {
+            text-align: center;
+        }
+        
+        .service-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--radius-full);
+            background-color: var(--color-primary);
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .service-btn:hover {
+            background-color: var(--color-secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .contact-section {
+            background-color: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xxl);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .contact-title {
+            font-size: 2rem;
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-text);
+        }
+        
+        .contact-description {
+            color: var(--color-text-secondary);
+            max-width: 800px;
+            margin: 0 auto var(--spacing-xl);
+            line-height: 1.6;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xl);
+            justify-content: center;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--color-background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-primary);
+            font-size: 1.5rem;
+        }
+        
+        .contact-label {
+            font-weight: 500;
+            color: var(--color-text);
+        }
+        
+        .contact-value {
+            color: var(--color-text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .contact-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--radius-full);
+            background-color: var(--color-primary);
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .contact-link:hover {
+            background-color: var(--color-secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .contact-note {
+            color: var(--color-text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 768px) {
+            .services-page {
+                padding-top: 180px;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .service-pricing {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-section {
+                padding: var(--spacing-xl);
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 动态背景容器 -->
+    <div class="dynamic-bg"></div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="index.html" class="logo-link">
+                    <div class="logo-svg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 150 150.1" fill="none" class="logo-icon">
+                            <path class="logo-path" stroke="currentColor" stroke-width="20" stroke-linecap="round" d="M10 140C45.8985 140 75 110.899 75 75C75 39.1015 45.8985 10 10 10"></path>
+                            <path class="logo-path" stroke="currentColor" stroke-width="20" stroke-linecap="round" d="M75 75C75 39.1015 104.101 10 140 10"></path>
+                            <path class="logo-path" stroke="currentColor" stroke-width="20" stroke-linecap="round" d="M10 35L10 115"></path>
+                            <path class="logo-path" stroke="currentColor" stroke-width="20" stroke-linecap="round" d="M140 35L140 140.101"></path>
+                        </svg>
+                    </div>
+                    <span class="logo-text">DreamirageStudio</span>
+                </a>
+            </div>
+
+            <div class="nav-center">
+                <a href="index.html" class="nav-btn" data-page="home">主页</a>
+                <a href="projects.html" class="nav-btn" data-page="projects">作品集</a>
+                <a href="about.html" class="nav-btn" data-page="about">我们</a>
+                <a href="services.html" class="nav-btn active" data-page="services">服务</a>
+                <div class="nav-indicator"></div>
+            </div>
+
+            <div class="nav-right">
+                <div class="social-icons">
+                    <a href="https://space.bilibili.com/3546558473702169" target="_blank" class="social-icon" title="Bilibili">
+                        <i class="fab fa-bilibili"></i>
+                    </a>
+                    <a href="https://www.xiaohongshu.com/user/profile/5f191af0000000000101ea29" target="_blank" class="social-icon" title="小红书">
+                        <i class="fab fa-weixin"></i>
+                    </a>
+                    <a href="https://github.com/Mirage-BIN" target="_blank" class="social-icon" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+                <div class="theme-switcher">
+                    <button class="theme-btn" id="themeToggle">
+                        <i class="fas fa-palette"></i>
+                        <span>主题</span>
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <div class="theme-option" data-theme="dark">暗夜</div>
+                        <div class="theme-option" data-theme="light">明亮</div>
+                        <div class="theme-option" data-theme="macaron">马卡龙</div>
+                        <div class="theme-option" data-theme="morandi">莫兰迪</div>
+                        <div class="theme-option" data-theme="custom">自定义颜色</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <main class="services-page">
+        <h1 class="page-title">服务与能力</h1>
+        <p class="page-subtitle">我们提供全方位的数字创意服务，从概念到实现，为您打造卓越的解决方案。</p>
+        
+        <!-- 服务网格 -->
+        <div class="services-grid" id="servicesGrid">
+            <!-- 服务卡片将通过JavaScript动态加载 -->
+            <div class="no-services">
+                <i class="fas fa-spinner fa-spin"></i> 正在加载服务信息...
+            </div>
+        </div>
+        
+        <!-- 联系板块 -->
+        <section class="contact-section">
+            <h2 class="contact-title">开始合作</h2>
+            <p class="contact-description">
+                每个项目都是独特的，我们提供定制化的解决方案。请告诉我们您的需求，我们将为您提供最合适的服务方案。
+            </p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="contact-label">响应时间</div>
+                    <div class="contact-value">24小时内回复</div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="contact-label">项目完成率</div>
+                    <div class="contact-value">100%交付</div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <div class="contact-label">客户满意度</div>
+                    <div class="contact-value">98%好评</div>
+                </div>
+            </div>
+            
+            <div class="contact-action">
+                <a href="https://www.xiaohongshu.com/user/profile/5f191af0000000000101ea29" target="_blank" class="contact-link">
+                    <i class="fab fa-weixin"></i>
+                    通过小红书联系我们
+                </a>
+                <p class="contact-note">如需合作请通过联系方式联系我们，我们将为您提供详细的方案和报价。</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- 脚本 -->
+    <script src="script.js"></script>
+    <script src="theme.js"></script>
+    <script src="services.js"></script>
+</body>
+</html>

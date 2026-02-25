@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamirageStudio | 作品集</title>
+    <link rel="stylesheet" href="fonts/fonts.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="Picture/DMI_Logo.svg">
+    <style>
+        /* 项目页面特定样式 */
+        .projects-page {
+            padding-top: 120px;
+            padding-bottom: var(--spacing-xxl);
+            min-height: 100vh;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-left: var(--spacing-xl);
+            padding-right: var(--spacing-xl);
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--spacing-xl);
+            text-align: center;
+            color: var(--color-primary);
+        }
+        
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            justify-content: center;
+            margin-bottom: var(--spacing-xxl);
+        }
+        
+        .filter-tag {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-full);
+            background-color: var(--color-surface);
+            color: var(--color-text);
+            border: 2px solid var(--color-border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .filter-tag:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+        
+        .filter-tag.active {
+            background-color: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xxl);
+        }
+        
+        .project-card {
+            background-color: var(--color-surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background-color: var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-secondary);
+            font-size: 3rem;
+        }
+        
+        .project-content {
+            padding: var(--spacing-lg);
+        }
+        
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-text);
+        }
+        
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .project-tag {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-full);
+            background-color: var(--color-background);
+            color: var(--color-text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .project-description {
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--color-text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* 项目状态徽章 */
+        .project-status-badge {
+            position: absolute;
+            top: var(--spacing-md);
+            right: var(--spacing-md);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        .project-status-badge.updating {
+            background-color: rgba(16, 185, 129, 0.9);
+            color: white;
+        }
+
+        .project-status-badge.paused {
+            background-color: rgba(245, 158, 11, 0.9);
+            color: white;
+        }
+
+        .project-status-badge.stopped {
+            background-color: rgba(239, 68, 68, 0.9);
+            color: white;
+        }
+
+        /* 项目信息项 */
+        .project-info {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+            padding: var(--spacing-sm);
+            background-color: var(--color-background);
+            border-radius: var(--radius-md);
+        }
+
+        .project-info-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            color: var(--color-text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .project-info-item i {
+            color: var(--color-primary);
+        }
+        
+        /* 项目详情浮层 */
+        .project-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-xl);
+        }
+        
+        .project-modal.active {
+            display: flex;
+        }
+        
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-overlay);
+            backdrop-filter: blur(10px);
+            z-index: 2001;
+        }
+        
+        .modal-content {
+            position: relative;
+            z-index: 2002;
+            background-color: var(--color-surface);
+            border-radius: var(--radius-lg);
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .modal-header {
+            padding: var(--spacing-lg);
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+        }
+        
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .modal-close:hover {
+            background-color: var(--color-primary);
+            color: white;
+        }
+        
+        .modal-body {
+            padding: var(--spacing-lg);
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            background-color: var(--color-border);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-secondary);
+            font-size: 4rem;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        
+        .modal-description {
+            color: var(--color-text);
+            line-height: 1.8;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .modal-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .modal-tag {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-full);
+            background-color: var(--color-primary);
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        /* 模态框信息 */
+        .modal-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-md);
+            background-color: var(--color-background);
+            border-radius: var(--radius-md);
+        }
+
+        .modal-info-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            color: var(--color-text);
+            font-size: 0.875rem;
+        }
+
+        .modal-info-item i {
+            color: var(--color-primary);
+        }
+
+        .modal-status-badge {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .modal-status-badge.updating {
+            background-color: var(--color-secondary);
+            color: white;
+        }
+
+        .modal-status-badge.paused {
+            background-color: var(--color-accent);
+            color: white;
+        }
+
+        .modal-status-badge.stopped {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .modal-links {
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+        
+        .modal-link {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-full);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .modal-link:hover {
+            background-color: var(--color-primary);
+            color: white;
+        }
+        
+        .no-projects {
+            text-align: center;
+            padding: var(--spacing-xxl);
+            color: var(--color-text-secondary);
+            grid-column: 1 / -1;
+        }
+        
+        @media (max-width: 768px) {
+            .projects-page {
+                padding-top: 180px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-modal {
+                padding: var(--spacing-md);
+            }
+        }
+
+        /* 赞助组件 */
+        .sponsor-section {
+            margin: var(--spacing-xxl) 0;
+        }
+
+        .sponsor-card {
+            background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-background) 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xxl);
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--color-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sponsor-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--color-primary)10 0%, transparent 70%);
+            animation: sponsorPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes sponsorPulse {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(10%, 10%); }
+        }
+
+        .sponsor-header {
+            position: relative;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .sponsor-title {
+            font-size: 2rem;
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+        }
+
+        .sponsor-subtitle {
+            color: var(--color-text-secondary);
+            font-size: 1.25rem;
+        }
+
+        .sponsor-content {
+            position: relative;
+        }
+
+        .sponsor-description {
+            color: var(--color-text);
+            line-height: 1.8;
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.1rem;
+        }
+
+        .sponsor-note {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            background-color: var(--color-primary)20;
+            border-radius: var(--radius-full);
+            color: var(--color-primary);
+            font-size: 0.875rem;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .sponsor-note i {
+            font-size: 1.1rem;
+        }
+
+        .sponsor-methods {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-xl);
+            flex-wrap: wrap;
+        }
+
+        .sponsor-method {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-xl);
+            background-color: var(--color-surface);
+            border-radius: var(--radius-lg);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid var(--color-border);
+        }
+
+        .sponsor-method:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-primary);
+        }
+
+        .sponsor-qr {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-sm);
+            background: white;
+        }
+
+        .sponsor-method-name {
+            color: var(--color-text);
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        /* 鸣谢墙 */
+        .thanks-wall-section {
+            margin: var(--spacing-xxl) 0;
+        }
+
+        .thanks-wall {
+            background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-background) 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xxl);
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--color-border);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .thanks-wall::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, var(--color-secondary)05 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, var(--color-primary)05 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .thanks-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            position: relative;
+            z-index: 1;
+        }
+
+        .thanks-title {
+            font-size: 2rem;
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+        }
+
+        .thanks-subtitle {
+            color: var(--color-text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .thanks-bubbles {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            background: linear-gradient(180deg, transparent 0%, var(--color-background)50 100%);
+            border-radius: var(--radius-lg);
+        }
+
+        .thanks-bubble {
+            position: absolute;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 20px;
+            color: white;
+            font-weight: 500;
+            white-space: nowrap;
+            animation: floatBubble linear infinite;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-width: auto;
+            max-width: 250px;
+        }
+
+        .thanks-bubble:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .thanks-bubble-name {
+            font-size: 0.9rem;
+            margin-right: 6px;
+        }
+
+        .thanks-bubble-amount {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        @keyframes floatBubble {
+            0% {
+                transform: translateX(0);
+                opacity: 0;
+            }
+            5% {
+                opacity: 1;
+            }
+            95% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(calc(100vw + 200px));
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 动态背景容器 -->
+    <div class="dynamic-bg"></div>
+
+    <!-- 导航栏（与首页相同） -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="index.html" class="logo-link">
+                    <div class="logo-svg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 150 150.1" fill="none" class="logo-icon">
+                            <path class="logo-path" stroke="currentColor" stroke-width="20" stroke-linecap="round" d="M10 140C45.8985 140 75 110.899 75 75C75 39.1015 45.8985 10 10 10"></path>
+                            <path class="logo-path" stroke="currentColor" stroke-width="20" stroke-linecap="round" d="M75 75C75 39.1015 104.101 10 140 10"></path>
+                            <path class="logo-path" stroke="currentColor" stroke-width="20" stroke-linecap="round" d="M10 35L10 115"></path>
+                            <path class="logo-path" stroke="currentColor" stroke-width="20" stroke-linecap="round" d="M140 35L140 140.101"></path>
+                        </svg>
+                    </div>
+                    <span class="logo-text">DreamirageStudio</span>
+                </a>
+            </div>
+
+            <div class="nav-center">
+                <a href="index.html" class="nav-btn" data-page="home">主页</a>
+                <a href="projects.html" class="nav-btn active" data-page="projects">作品集</a>
+                <a href="about.html" class="nav-btn" data-page="about">我们</a>
+                <a href="services.html" class="nav-btn" data-page="services">服务</a>
+                <div class="nav-indicator"></div>
+            </div>
+
+            <div class="nav-right">
+                <div class="social-icons">
+                    <a href="https://space.bilibili.com/3546558473702169" target="_blank" class="social-icon" title="Bilibili">
+                        <i class="fab fa-bilibili"></i>
+                    </a>
+                    <a href="https://www.xiaohongshu.com/user/profile/5f191af0000000000101ea29" target="_blank" class="social-icon" title="小红书">
+                        <i class="fab fa-weixin"></i>
+                    </a>
+                    <a href="https://github.com/Mirage-BIN" target="_blank" class="social-icon" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+                <div class="theme-switcher">
+                    <button class="theme-btn" id="themeToggle">
+                        <i class="fas fa-palette"></i>
+                        <span>主题</span>
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <div class="theme-option" data-theme="dark">暗夜</div>
+                        <div class="theme-option" data-theme="light">明亮</div>
+                        <div class="theme-option" data-theme="macaron">马卡龙</div>
+                        <div class="theme-option" data-theme="morandi">莫兰迪</div>
+                        <div class="theme-option" data-theme="custom">自定义颜色</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <main class="projects-page">
+        <h1 class="page-title">作品集</h1>
+        
+        <!-- 标签筛选区 -->
+        <div class="filter-tags">
+            <div class="filter-tag active" data-tag="all">全部</div>
+            <div class="filter-tag" data-tag="web">网页开发</div>
+            <div class="filter-tag" data-tag="design">Logo/IP设计</div>
+            <div class="filter-tag" data-tag="game">游戏Mod</div>
+            <div class="filter-tag" data-tag="app">应用开发</div>
+            <div class="filter-tag" data-tag="other">其他</div>
+        </div>
+        
+        <!-- 项目网格 -->
+        <div class="projects-grid" id="projectsGrid">
+            <!-- 项目卡片将通过JavaScript动态加载 -->
+            <div class="no-projects">
+                <i class="fas fa-spinner fa-spin"></i> 正在加载项目...
+            </div>
+        </div>
+
+        <!-- 赞助组件 -->
+        <div class="sponsor-section">
+            <div class="sponsor-card">
+                <div class="sponsor-header">
+                    <h2 class="sponsor-title">
+                        <i class="fas fa-heart"></i>
+                        赞助我们
+                    </h2>
+                    <p class="sponsor-subtitle">您的支持是我们最大的动力</p>
+                </div>
+                <div class="sponsor-content">
+                    <p class="sponsor-description">
+                        如果您喜欢我们的作品，可以考虑赞助我们。您的支持将帮助我们继续创作更多优质内容。
+                    </p>
+                    <div class="sponsor-note">
+                        <i class="fas fa-coffee"></i>
+                        <span>我们最爱和瑞幸了！可以给我们来杯提神吗，赞助请备注说明</span>
+                    </div>
+                    <div class="sponsor-methods">
+                        <div class="sponsor-method">
+                            <img src="Picture/alipay.png" alt="支付宝" class="sponsor-qr">
+                            <span class="sponsor-method-name">支付宝</span>
+                        </div>
+                        <div class="sponsor-method">
+                            <img src="Picture/wechatpay.png" alt="微信支付" class="sponsor-qr">
+                            <span class="sponsor-method-name">微信支付</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 鸣谢墙 -->
+        <div class="thanks-wall-section">
+            <div class="thanks-wall">
+                <h2 class="thanks-title">
+                    <i class="fas fa-users"></i>
+                    鸣谢墙
+                </h2>
+                <p class="thanks-subtitle">感谢所有赞助者的支持</p>
+                <div class="thanks-bubbles" id="thanksBubbles">
+                    <!-- 气泡将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 项目详情浮层 -->
+    <div class="project-modal" id="projectModal">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">项目标题</h2>
+                <div class="modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image" id="modalImage">
+                    <i class="fas fa-image"></i>
+                </div>
+                <div class="modal-description" id="modalDescription">
+                    项目描述将在这里显示。
+                </div>
+                <div class="modal-tags" id="modalTags">
+                    <!-- 标签将通过JavaScript动态添加 -->
+                </div>
+                <div class="modal-info">
+                    <div class="modal-info-item" id="modalStatus">
+                        <!-- 状态将通过JavaScript动态添加 -->
+                    </div>
+                    <div class="modal-info-item" id="modalVersion">
+                        <!-- 版本号将通过JavaScript动态添加 -->
+                    </div>
+                    <div class="modal-info-item" id="modalStartDate">
+                        <!-- 开始日期将通过JavaScript动态添加 -->
+                    </div>
+                    <div class="modal-info-item" id="modalLastUpdate">
+                        <!-- 上次更新日期将通过JavaScript动态添加 -->
+                    </div>
+                </div>
+                <div class="modal-links" id="modalLinks">
+                    <!-- 链接将通过JavaScript动态添加 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="script.js"></script>
+    <script src="theme.js"></script>
+    <script src="projects.js"></script>
+    <script src="sponsors/sponsors.js"></script>
+</body>
+</html>
