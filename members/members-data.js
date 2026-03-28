@@ -96,6 +96,40 @@
                 { label: 'bilibili', url: 'https://cnb.cool/110?url=https%3A%2F%2Fb23.tv%2FU7gSxFz', icon: 'fab fa-bilibili' },
                 { label: 'GitHub', url: 'https://cnb.cool/110?url=https%3A%2F%2Fgithub.com%2FFleetingLore%2F', icon: 'fab fa-github' }
             ]
+        },
+                            {
+            id: 8,
+             name: '是只耶吧',
+            role: '码农',
+            bio: '初中牲 爱🦌\n\n"会Golang Python Flutter Dart Lua HTML CSS JavaScript PHP 逆向 抓包憋不出来"',
+            tags: ['Golang', 'Python', 'Flutter', 'Dart', 'Lua', 'HTML', 'CSS', 'JavaScript', 'PHP', '逆向', '抓包', '🦌'],
+            avatarImage: 'https://github.com/Yeah114.png?size=400',
+            links: [
+                { label: 'bilibili', url: 'https://space.bilibili.com/1378292318?spm_id_from=333.1387.follow.user_card.click', icon: 'fab fa-bilibili' },
+                { label: 'GitHub', url: 'https://github.com/Yeah114', icon: 'fab fa-github' }
+            ]
+        },
+                                        {
+            id: 9,
+             name: '大胖',
+            role: '文案',
+            bio: '小鱼感谢流水，所以每一天都把它放在心里\n\n"喜欢写故事的宅男"',
+            tags: ['写作', '故事', '文案'],
+            avatarImage: 'members/picture/bigfat.png',
+            links: [
+                { label: '小红书', url: 'https://www.xiaohongshu.com/user/profile/6625005700000000070066df?xsec_token=ABQARuSVCLt0x6rUuZ3RhiS7Ne6T0Wf6UJORIZHAI4vkQ=&xsec_source=pc_like' },
+            ]
+        },
+                                        {
+            id: 10,
+             name: '德玛田老福',
+            role: '建模',
+            bio: '这个人很懒，什么也没有留下。。。\n\n"爱好摄影，躺平，懒，会点建模"',
+            tags: ['建模', '摄影', '躺平', '懒'],
+            avatarImage: 'members/picture/JianPan.jpg',
+            links: [
+                { label: '小红书', url: 'https://www.xiaohongshu.com/user/profile/69c5372b00000000330285aa?xsec_token=ABeLEb5EspBAt03pbPGnUS2jEr8-LGAxLl9H2434DJ-PM%3D&xsec_source=pc_search' },
+            ]
         }
     ];
     
